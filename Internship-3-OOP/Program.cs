@@ -88,7 +88,7 @@ namespace Internship_3_OOP
             string userName = stringValidation("Korisnicko ime: ");
             string password = stringValidation("Lozinka: ");
 
-            passengers.Add(new Passenger(name, surname, email, userName, password));
+            passengers.Add(new Passenger(ID, name, surname, email, userName, password));
 
             Console.WriteLine("");
             Console.WriteLine($"Registriran korisnik: {userName}");
@@ -98,6 +98,72 @@ namespace Internship_3_OOP
             Console.ReadKey();
 
             Console.WriteLine("");
+        }
+
+        static void passengerFlightMenu(Passenger passenger)
+        {
+            bool passengerFinished = false;
+            do
+            {
+                Console.WriteLine("");
+                Console.WriteLine("1 - Prikaz svih letova");
+                Console.WriteLine("2 - Odabir leta");
+                Console.WriteLine("3 - Pretrazivanje letova");
+                Console.WriteLine("4 - Otkazivanje leta");
+                Console.WriteLine("5 - Povratak na prethodni izbornik");
+                Console.Write("\nOdabir: ");
+                if (int.TryParse(Console.ReadLine(), out int passengerChoice))
+                {
+                    switch (passengerChoice)
+                    {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            Console.WriteLine("Povratak na izbornik od putnika...");
+                            Console.WriteLine("");
+                            passengerFinished = true;
+                            break;
+                        default:
+                            Console.WriteLine("Krivi odabir!");
+                            Console.WriteLine("");
+                            break;
+                    }
+                }
+            } while (!passengerFinished);
+        }
+
+        static void login(List<Passenger> passengers)
+        {
+            Console.WriteLine("");
+            bool dataCheck = true;
+            Console.WriteLine("Unesite svoje podatke:");
+
+            while (dataCheck)
+            {
+                string email = stringValidation("Email: ");
+                string password = stringValidation("Lozinka: ");
+
+                foreach (var passenger in passengers)
+                {
+                    if (email == passenger.Email && password == passenger.Password)
+                    {
+                        passengerFlightMenu(passenger);
+                        dataCheck = false;
+                        break;
+                    }
+                }
+
+                if (dataCheck)
+                {
+                    Console.WriteLine("Email ili lozinka nisu ispravni. Pokusajte ponovno!");
+                }
+            }
         }
 
         static void passengerMenu(List<Passenger> passengers)
@@ -118,9 +184,10 @@ namespace Internship_3_OOP
                             registration(passengers);
                             break;
                         case 2:
+                            login(passengers);
                             break;
                         case 3:
-                            Console.WriteLine("Izlazak iz izbornika za putnike...");
+                            Console.WriteLine("Povratak na glavni izbornik...");
                             Console.WriteLine("");
                             passengerFinished = true;
                             break;
