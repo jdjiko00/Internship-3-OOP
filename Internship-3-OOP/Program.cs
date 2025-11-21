@@ -46,7 +46,7 @@ namespace Internship_3_OOP
             } while (!appFinished);
         }
 
-        static string stringValidation(string message)
+        static string onlyLettersValidation(string message)
         {
             string value = "";
 
@@ -60,6 +60,22 @@ namespace Internship_3_OOP
 
                 else if (!value.All(char.IsLetter))
                     Console.WriteLine("Unos može sadržavati samo slova!");
+            }
+
+            return value;
+        }
+
+        static string otherStringsValidation(string message)
+        {
+            string value = "";
+
+            while (string.IsNullOrWhiteSpace(value))
+            {
+                Console.Write(message);
+                value = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(value))
+                    Console.WriteLine("Unos ne smije biti prazan!");
             }
 
             return value;
@@ -82,11 +98,11 @@ namespace Internship_3_OOP
 
             Console.WriteLine("Unesite svoje podatke:");
 
-            string name = stringValidation("Ime: ");
-            string surname = stringValidation("Prezime: ");
-            string email = stringValidation("Email: ");
-            string userName = stringValidation("Korisnicko ime: ");
-            string password = stringValidation("Lozinka: ");
+            string name = onlyLettersValidation("Ime: ");
+            string surname = onlyLettersValidation("Prezime: ");
+            string email = otherStringsValidation("Email: ");
+            string userName = otherStringsValidation("Korisnicko ime: ");
+            string password = otherStringsValidation("Lozinka: ");
 
             passengers.Add(new Passenger(ID, name, surname, email, userName, password));
 
@@ -146,8 +162,8 @@ namespace Internship_3_OOP
 
             while (dataCheck)
             {
-                string email = stringValidation("Email: ");
-                string password = stringValidation("Lozinka: ");
+                string email = otherStringsValidation("Email: ");
+                string password = otherStringsValidation("Lozinka: ");
 
                 foreach (var passenger in passengers)
                 {
