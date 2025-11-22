@@ -7,13 +7,13 @@
 
         public Date()
         {
-            this.CreatedDate = DateTime.Now;
-            this.UpdatedDate = DateTime.Now;
+            CreatedDate = DateTime.Now;
+            UpdatedDate = DateTime.Now;
         }
 
         public void UpdateDate()
         {
-            this.UpdatedDate = DateTime.Now;
+            UpdatedDate = DateTime.Now;
         }
     }
 }

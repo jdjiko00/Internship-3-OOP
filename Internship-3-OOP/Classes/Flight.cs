@@ -2,27 +2,29 @@
 {
     public class Flight : Date
     {
-        public int ID { get; set; }
+        public Guid ID { get; set; }
         public string Name { get; set; }
         public string DepartuePlace { get; set; }
         public string ArrivalPlace { get; set; }
-        public DateTime DepartueDate { get; set; }
-        public DateTime ArrivalDate { get; set; }
+        public DateTime DepartueTime { get; set; }
+        public DateTime ArrivalTime { get; set; }
         public double Distance { get; set; }
         public Plane Plane { get; set; }
         public Crew Crew { get; set; }
+        public List<SeatCategory> CurrentFlightSeatCount = new List<SeatCategory>();
+        public static List<Flight> Flights = new List<Flight>();
 
-        public Flight(int ID, string name, string departurePlace, string arrivalPlace, DateTime departueDate, DateTime arrivalDate, double distance, Plane plane, Crew crew)
+        public Flight(string name, string departurePlace, string arrivalPlace, DateTime departueTime, DateTime arrivalTime, double distance, Plane plane, Crew crew)
         {
-            this.ID = ID;
-            this.Name = name;
-            this.DepartuePlace = departurePlace;
-            this.ArrivalPlace = arrivalPlace;
-            this.DepartueDate = departueDate;
-            this.ArrivalDate = arrivalDate;
-            this.Distance = distance;
-            this.Plane = plane;
-            this.Crew = crew;
+            ID = Guid.NewGuid();
+            Name = name;
+            DepartuePlace = departurePlace;
+            ArrivalPlace = arrivalPlace;
+            DepartueTime = departueTime;
+            DepartueTime = departueTime;
+            Distance = distance;
+            Plane = plane;
+            Crew = crew;
         }
     }
 }

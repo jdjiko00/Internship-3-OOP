@@ -9,8 +9,8 @@ namespace Internship_3_OOP.Classes
 
         public SeatCategory(Category category, int numberOfSeats)
         {
-            this.Category = category;
-            this.NumberOfSeats = numberOfSeats;
+            Category = category;
+            NumberOfSeats = numberOfSeats;
         }
     }
 }
