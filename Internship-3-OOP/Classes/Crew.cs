@@ -69,17 +69,17 @@ namespace Internship_3_OOP.Classes
                 Console.WriteLine("1 - Prikaz svih posada");
                 Console.WriteLine("2 - Kreiranje nove posade");
                 Console.WriteLine("3 - Dodavanje osobe");
-                Console.WriteLine("4 - Izlaz iz programa");
+                Console.WriteLine("4 - Povratak na prethodni izbornik");
                 Console.Write("\nOdabir: ");
                 if (int.TryParse(Console.ReadLine(), out int appChoice))
                 {
                     switch (appChoice)
                     {
                         case 1:
-                            showCrews();
+                            ShowCrews();
                             break;
                         case 2:
-                            addCrew();
+                            AddCrew();
                             break;
                         case 3:
                             CrewMember.AddCrewMembers();
@@ -98,7 +98,7 @@ namespace Internship_3_OOP.Classes
             } while (!crewFinished);
         }
 
-        public static void showCrews()
+        public static void ShowCrews()
         {
             Console.WriteLine("");
             foreach (var crew in Crews)
@@ -117,7 +117,7 @@ namespace Internship_3_OOP.Classes
             Console.ReadKey();
         }
 
-        public static void addCrew()
+        public static void AddCrew()
         {
             Console.WriteLine("");
             int numberOfCrews = Crews.Count;
