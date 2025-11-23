@@ -55,5 +55,10 @@ namespace Internship_3_OOP.Classes
                 new SeatCategory(Category.VIP, 30)
             }));
         }
+
+        public static void ShowPlanes()
+        {
+
+        }
     }
 }

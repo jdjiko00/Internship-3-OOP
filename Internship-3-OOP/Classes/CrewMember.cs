@@ -37,5 +37,30 @@ namespace Internship_3_OOP.Classes
             CrewMembers.Add(new CrewMember("Nikolina", "Peric", new DateOnly(1993, 2, 20), Gender.Female, CrewPosition.FlightAttendant));
             CrewMembers.Add(new CrewMember("Matej", "Horvat", new DateOnly(1990, 8, 17), Gender.Male, CrewPosition.FlightAttendant));
         }
+
+        public static void AddCrewMembers()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Unesite podatke za novu osobu!");
+            Console.WriteLine("");
+
+            string name = ValidationHelper.AllLettersStringValidation("Ime: ");
+            string surname = ValidationHelper.AllLettersStringValidation("Prezime: ");
+            DateOnly birthDay = ValidationHelper.DateOfBirthValidation("Unesite datum rodenja (YYYY-MM-DD): ");
+            Console.WriteLine("");
+            Gender gender = ValidationHelper.GenderValidation("Unesite 1 ili 2: ");
+            Console.WriteLine("");
+            CrewPosition position = ValidationHelper.PositionValidation("Unesite 1 ili 2 ili 3: ");
+
+            if (!ValidationHelper.AnswerValidation($"Zelite li dodati osobu {name} - {surname} - {position} - {gender} - {birthDay} (DA/NE): "))
+                return;
+
+            CrewMembers.Add(new CrewMember(name, surname, birthDay, gender, position));
+
+            Console.WriteLine("Osoba dodana!");
+
+            Console.WriteLine("Pritisnite bilo koju tipku za nastavak...");
+            Console.ReadKey();
+        }
     }
 }
