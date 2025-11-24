@@ -143,9 +143,69 @@ namespace Internship_3_OOP.Classes
             else return ID;
         }
 
+        public static int ProductionValidation(string message)
+        {
+            while (true)
+            {
+                Console.Write(message);
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int result))
+                {
+                    if (result < 2000 || result > 2025)
+                    {
+                        Console.WriteLine("Nemoguce da je napravljen te godine! Godina proizvodnje mora biti izmedu 2000 i 2025");
+                        continue;
+                    }
+                    else return result;
+                }
+                else
+                {
+                    Console.WriteLine("Neispravan unos!");
+                }
+            }
+
+        }
+
+        public static int SeatValidation(string message, Category category)
+        {
+
+            while (true)
+            {
+                Console.Write(message);
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int result))
+                {
+                    if (result < 0)
+                    {
+                        Console.WriteLine("Nemoguce unijeti negativnu vrijednost");
+                        continue;
+                    }
+                    else if (result > 20 && category == Category.VIP)
+                    {
+                        Console.WriteLine($"Previse sjedalica zelis unijeti za {category} kategoriju, 20 je maksimalno!");
+                    }
+                    else if (result > 50 && category == Category.Business)
+                    {
+                        Console.WriteLine($"Previse sjedalica zelis unijeti za {category} kategoriju, 50 je maksimalno!");
+                    }
+                    else if (result > 200 && category == Category.Standard)
+                    {
+                        Console.WriteLine("Previse sjedalica zelis unijeti, 200 je maksimalno!");
+                        continue;
+                    }
+                    else return result;
+                }
+                else
+                {
+                    Console.WriteLine("Neispravan unos!");
+                }
+            }
+        }
+
         public static DateTime FlightTimeValidation(string message, DateTime departureTime, DateTime arrivalTime = default)
         {
-            Console.WriteLine("");
             if (arrivalTime == default)
                 arrivalTime = DateTime.MaxValue;
             string inputValue;
@@ -155,7 +215,10 @@ namespace Internship_3_OOP.Classes
                 Console.Write(message);
                 inputValue = Console.ReadLine();
 
-                if (string.IsNullOrWhiteSpace(inputValue))
+                if (string.IsNullOrEmpty(inputValue) && departureTime == DateTime.MinValue)
+                    continue;
+
+                else if (string.IsNullOrWhiteSpace(inputValue))
                 {
                     return departureTime;
                 }
@@ -205,6 +268,24 @@ namespace Internship_3_OOP.Classes
                 {
                     Console.WriteLine("Morate upisati DA ili NE!");
                     continue;
+                }
+            }
+        }
+
+        public static double DoubleValidation(string message)
+        {
+            while (true)
+            {
+                Console.Write(message);
+                string input = Console.ReadLine();
+
+                if (double.TryParse(input, out double result))
+                {
+                    return result;
+                }
+                else
+                {
+                    Console.WriteLine("Neispravan unos!");
                 }
             }
         }

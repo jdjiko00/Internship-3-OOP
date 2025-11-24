@@ -116,6 +116,7 @@ namespace Internship_3_OOP.Classes
                             ShowFlights();
                             break;
                         case 2:
+                            AddFlight();
                             break;
                         case 3:
                             SearchFlightsMenu();
@@ -124,6 +125,7 @@ namespace Internship_3_OOP.Classes
                             EditFlights();
                             break;
                         case 5:
+                            DeleteFlights();
                             break;
                         case 6:
                             Console.WriteLine("Povratak u glavni izbornik...");
@@ -148,6 +150,71 @@ namespace Internship_3_OOP.Classes
             }
             Console.WriteLine("");
 
+            Console.WriteLine("Pritisnite bilo koju tipku za nastavak...");
+            Console.ReadKey();
+        }
+
+        public static void AddFlight()
+        {
+            Console.WriteLine("");
+            int numOfFlights = Flights.Count;
+            DateTime flightDepartureTime = DateTime.MinValue;
+            string flightName = ValidationHelper.NoEmptyStringValidation("Unesite ime leta: ");
+            string flightDepartuePlace = ValidationHelper.AllLettersStringValidation("Unesite ime mjesta od kojeg krece: ");
+            flightDepartureTime = ValidationHelper.FlightTimeValidation($"Unesite vrijeme polaska (YYYY-MM-DD HH:mm): ", flightDepartureTime);
+            string flightArrivalPlace = ValidationHelper.AllLettersStringValidation("Unesite ime mjesta do kojeg se ide: ");
+            DateTime flightArrivalTime = ValidationHelper.FlightTimeValidation($"Unesite vrijeme dolaska (YYYY-MM-DD HH:mm): ", flightDepartureTime, DateTime.MaxValue);
+            TimeSpan flightTotalTime = flightArrivalTime - flightDepartureTime;
+            double flightDistance = ValidationHelper.DoubleValidation("Unesite duljinu leta: ");
+
+            Console.WriteLine("");
+            foreach (var plane in Plane.Planes)
+            {
+                Console.WriteLine($"{plane.ID} - {plane.Name}");
+            }
+            Plane planeToPut;
+            while (true)
+            {
+                Guid inputPlaneID = ValidationHelper.GuidValidation("Odaberite ID aviona kojeg zelite dodati na let: ");
+                planeToPut = Plane.Planes.Find(planeToPut => planeToPut.ID == inputPlaneID);
+                if (planeToPut == null)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Neispravan ID aviona, unesite tocan!");
+                    Console.WriteLine("");
+                }
+                else break;
+            }
+
+            Console.WriteLine("");
+            foreach (var crew in Crew.Crews)
+            {
+                Console.WriteLine($"{crew.ID} - {crew.Name}");
+            }
+            Crew crewToPut;
+            while (true)
+            {
+                Guid inputCrewID = ValidationHelper.GuidValidation("Odaberite ID posade koju zelite dodati na let: ");
+                crewToPut = Crew.Crews.Find(crewToPut => crewToPut.ID == inputCrewID);
+                if (crewToPut == null)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Neispravan ID posade, unesite tocan!");
+                    Console.WriteLine("");
+                }
+                else break;
+            }
+
+            if (!ValidationHelper.AnswerValidation($"Zelite li dodati taj let (DA/NE): "))
+                return;
+
+            Flights.Add(new Flight(flightName, flightDepartuePlace, flightArrivalPlace, flightDepartureTime, flightArrivalTime, flightDistance, planeToPut, crewToPut));
+
+            Console.WriteLine("");
+            Console.WriteLine("Let kojeg ste dodali je:");
+            Console.WriteLine($"{Flights[numOfFlights].ID} - {Flights[numOfFlights].Name} \n{Flights[numOfFlights].DepartuePlace} {Flights[numOfFlights].DepartueTime} -> {Flights[numOfFlights].ArrivalPlace} {Flights[numOfFlights].ArrivalTime} \nUdaljenost: {Flights[numOfFlights].Distance} km \nVrijeme putovanja: {Flights[numOfFlights].TotalTime} h\nAvion: {Flights[numOfFlights].Plane.Name} \nPosada: {Flights[numOfFlights].Crew.Name}");
+            
+            Console.WriteLine("");
             Console.WriteLine("Pritisnite bilo koju tipku za nastavak...");
             Console.ReadKey();
         }
@@ -200,13 +267,12 @@ namespace Internship_3_OOP.Classes
             {
                 Console.WriteLine("");
                 Console.WriteLine("Ne postoji let s tim ID-em!");
-                Console.WriteLine("");
             }
             else
             {
                 Console.WriteLine("Let kojeg trazite je:");
                 Console.WriteLine("");
-                Console.WriteLine($"{flight.ID} - {flight.Name} \n{flight.DepartuePlace} {flight.DepartueTime} -> {flight.ArrivalPlace} {flight.ArrivalTime} \nUdaljenost: {flight.Distance} km \nVrijeme putovanja: {flight.TotalTime}\nAvion: {flight.Plane.Name} \nPosada: {flight.Crew.Name}");
+                Console.WriteLine($"{flight.ID} - {flight.Name} \n{flight.DepartuePlace} {flight.DepartueTime} -> {flight.ArrivalPlace} {flight.ArrivalTime} \nUdaljenost: {flight.Distance} km \nVrijeme putovanja: {flight.TotalTime} h\nAvion: {flight.Plane.Name} \nPosada: {flight.Crew.Name}");
             }
             Console.WriteLine("");
 
@@ -223,7 +289,6 @@ namespace Internship_3_OOP.Classes
             {
                 Console.WriteLine("");
                 Console.WriteLine("Ne postoji let s tim imenom!");
-                Console.WriteLine("");
             }
             else
             {
@@ -254,7 +319,6 @@ namespace Internship_3_OOP.Classes
             {
                 Console.WriteLine("");
                 Console.WriteLine("Ne postoji let s tim ID-em!");
-                Console.WriteLine("");
                 return;
             }
 
@@ -296,6 +360,63 @@ namespace Internship_3_OOP.Classes
 
             Console.WriteLine($"Let nakon promjene:\n{flight.ID} - {flight.Name}\n{flight.DepartueTime} - {flight.ArrivalTime}\nPosada: {flight.Crew.Name}");
             Console.WriteLine("");
+
+            Console.WriteLine("Pritisnite bilo koju tipku za nastavak...");
+            Console.ReadKey();
+        }
+
+        public static void DeleteFlights()
+        {
+            Console.WriteLine("");
+            foreach (var flight in Flights)
+            {
+                Console.WriteLine($"{flight.ID} - {flight.Name}\nVrijeme letenja: {flight.TotalTime}\nPosada: {flight.Crew.Name}\nAvion: {flight.Plane.Name}");
+            }
+            Console.WriteLine("");
+            Guid inputFlightID = ValidationHelper.GuidValidation("Odaberite ID leta kojeg zelite izbrisati: ");
+            var flightToDelete = Flights.Find(flightToDelete => flightToDelete.ID == inputFlightID);
+            if (flightToDelete == null)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Ne postoji let s tim ID-em!");
+            }
+            else
+            {
+                double planeSeats = 0;
+                foreach (var seats in flightToDelete.Plane.PlaneSeatCount)
+                    planeSeats += (double)seats.NumberOfSeats;
+
+                double flightSeats = 0;
+                foreach (var seats in flightToDelete.CurrentFlightSeatCount)
+                    flightSeats += (double)seats.NumberOfSeats;
+
+                if (flightSeats/planeSeats >= 0.5)
+                {
+                    Console.WriteLine("Popunjenost leta nije manja od 50% i ne mozete ga izbrisati!");
+                    Console.WriteLine("");
+                    return;
+                }
+
+                DateTime currentTime = DateTime.Now;
+                TimeSpan difference = currentTime - flightToDelete.DepartueTime;
+                double timeDifference = Math.Abs(difference.TotalHours);
+
+                if (timeDifference < 24)
+                {
+                    Console.WriteLine("Let je za manje od 24 h i ne mozete ga izbrisati!");
+                    Console.WriteLine("");
+                    return;
+                }
+
+                Console.WriteLine($"Let kojeg zelite izbrisati je: ");
+                Console.WriteLine($"{flightToDelete.ID} - {flightToDelete.Name}\nVrijeme letenja: {flightToDelete.TotalTime}\nPosada: {flightToDelete.Crew.Name}\nAvion: {flightToDelete.Plane.Name}");
+
+                if (!ValidationHelper.AnswerValidation($"Zelite li izbrisati taj let (DA/NE): "))
+                    return;
+
+                Flights.Remove(flightToDelete);
+                Console.WriteLine("Let je izbrisan!");
+            }
 
             Console.WriteLine("Pritisnite bilo koju tipku za nastavak...");
             Console.ReadKey();

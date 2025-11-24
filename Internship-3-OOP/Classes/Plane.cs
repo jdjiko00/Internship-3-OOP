@@ -1,4 +1,5 @@
 ﻿using Internship_3_OOP.Classes.Enums;
+using System.Numerics;
 
 namespace Internship_3_OOP.Classes
 {
@@ -6,12 +7,12 @@ namespace Internship_3_OOP.Classes
     {
         public Guid ID { get; set; }
         public string Name { get; set; }
-        public DateOnly ProductionYear { get; set; }
+        public int ProductionYear { get; set; }
         public int FlightCount = 0;
         public List<SeatCategory> PlaneSeatCount = new List<SeatCategory>();
         public static List<Plane> Planes = new List<Plane>();
 
-        public Plane(string name, DateOnly productionYear, List<SeatCategory> seatCount)
+        public Plane(string name, int productionYear, List<SeatCategory> seatCount)
         {
             ID = Guid.NewGuid();
             Name = name;
@@ -21,35 +22,35 @@ namespace Internship_3_OOP.Classes
 
         public static void InitializePlanes()
         {
-            Planes.Add(new Plane("Boeing 737", new DateOnly(2010, 1, 1), new List<SeatCategory>
+            Planes.Add(new Plane("Boeing 737", 2010, new List<SeatCategory>
             {
                 new SeatCategory(Category.Standard, 120),
                 new SeatCategory(Category.Business, 24),
                 new SeatCategory(Category.VIP, 6)
             }));
 
-            Planes.Add(new Plane("Airbus A320", new DateOnly(2012, 5, 1), new List<SeatCategory>
+            Planes.Add(new Plane("Airbus A320", 2012, new List<SeatCategory>
             {
                 new SeatCategory(Category.Standard, 150),
                 new SeatCategory(Category.Business, 30),
                 new SeatCategory(Category.VIP, 8)
             }));
 
-            Planes.Add(new Plane("Embraer E190", new DateOnly(2015, 3, 15), new List<SeatCategory>
+            Planes.Add(new Plane("Embraer E190", 2015, new List<SeatCategory>
             {
                 new SeatCategory(Category.Standard, 90),
                 new SeatCategory(Category.Business, 10),
                 new SeatCategory(Category.VIP, 0)
             }));
 
-            Planes.Add(new Plane("Boeing 777", new DateOnly(2018, 7, 20), new List<SeatCategory>
+            Planes.Add(new Plane("Boeing 777", 2018, new List<SeatCategory>
             {
                 new SeatCategory(Category.Standard, 250),
                 new SeatCategory(Category.Business, 50),
                 new SeatCategory(Category.VIP, 20)
             }));
 
-            Planes.Add(new Plane("Airbus A350", new DateOnly(2020, 9, 10), new List<SeatCategory>
+            Planes.Add(new Plane("Airbus A350", 2020, new List<SeatCategory>
             {
                 new SeatCategory(Category.Standard, 280),
                 new SeatCategory(Category.Business, 60),
@@ -77,7 +78,7 @@ namespace Internship_3_OOP.Classes
                             ShowPlanes();
                             break;
                         case 2:
-                            //addCrew();
+                            AddPlane();
                             break;
                         case 3:
                             SearchPlanesMenu();
@@ -104,12 +105,40 @@ namespace Internship_3_OOP.Classes
             Console.WriteLine("");
             foreach (var plane in Planes)
             {
-                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear.Year} - Broj letova: {plane.FlightCount}");
+                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear} - Broj letova: {plane.FlightCount}");
             }
             Console.WriteLine("");
 
             Console.WriteLine("Pritisnite bilo koju tipku za nastavak...");
             Console.ReadKey();
+        }
+
+        public static void AddPlane()
+        {
+            Console.WriteLine("");
+            int numOfPlanes = Planes.Count;
+            string planeName = ValidationHelper.NoEmptyStringValidation("Unesite ime aviona: ");
+            int planeProductionYear = ValidationHelper.ProductionValidation("Unestite godinu proizvodnje aviona: ");
+            List<SeatCategory> seats = new List<SeatCategory>();
+            seats.Add(new SeatCategory(Category.Standard, ValidationHelper.SeatValidation($"Unesite broj sjedalica za {Category.Standard} kategoriju: ", Category.Standard)));
+            seats.Add(new SeatCategory(Category.Business, ValidationHelper.SeatValidation($"Unesite broj sjedalica za {Category.Business} kategoriju: ", Category.Business)));
+            seats.Add(new SeatCategory(Category.VIP, ValidationHelper.SeatValidation($"Unesite broj sjedalica za {Category.VIP} kategoriju: ", Category.VIP)));
+
+            if (!ValidationHelper.AnswerValidation($"Zelite li dodati taj avion (DA/NE): "))
+                return;
+
+            Planes.Add(new Plane(planeName, planeProductionYear, seats));
+
+            Console.WriteLine("");
+            Console.WriteLine("Avion kojeg ste dodali je:");
+            Console.WriteLine($"{Planes[numOfPlanes].ID} - {Planes[numOfPlanes].Name} - {Planes[numOfPlanes].ProductionYear} - Broj letova: {Planes[numOfPlanes].FlightCount}");
+            foreach (var seat in Planes[numOfPlanes].PlaneSeatCount)
+                Console.WriteLine($"{seat.Category} ima {seat.NumberOfSeats} sjedala");
+
+            Console.WriteLine("");
+            Console.WriteLine("Pritisnite bilo koju tipku za nastavak...");
+            Console.ReadKey();
+
         }
 
         public static void SearchPlanesMenu()
@@ -160,13 +189,12 @@ namespace Internship_3_OOP.Classes
             {
                 Console.WriteLine("");
                 Console.WriteLine("Ne postoji avion s tim ID-em!");
-                Console.WriteLine("");
             }
             else
             {
                 Console.WriteLine("Avion kojeg trazite je:");
                 Console.WriteLine("");
-                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear.Year} - Broj letova: {plane.FlightCount}");
+                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear} - Broj letova: {plane.FlightCount}");
                 foreach (var seat in plane.PlaneSeatCount)
                     Console.WriteLine($"{seat.Category} ima {seat.NumberOfSeats} sjedala");
             }
@@ -185,13 +213,12 @@ namespace Internship_3_OOP.Classes
             {
                 Console.WriteLine("");
                 Console.WriteLine("Ne postoji avion s tim imenom!");
-                Console.WriteLine("");
             }
             else
             {
                 Console.WriteLine("Avion kojeg trazite je:");
                 Console.WriteLine("");
-                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear.Year} - Broj letova: {plane.FlightCount}");
+                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear} - Broj letova: {plane.FlightCount}");
                 foreach (var seat in plane.PlaneSeatCount)
                     Console.WriteLine($"{seat.Category} ima {seat.NumberOfSeats} sjedala");
 
@@ -241,7 +268,7 @@ namespace Internship_3_OOP.Classes
             Console.WriteLine("");
             foreach (var plane in Planes)
             {
-                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear.Year} - Broj letova: {plane.FlightCount}");
+                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear} - Broj letova: {plane.FlightCount}");
             }
             Console.WriteLine("");
             Guid inputPlaneID = ValidationHelper.GuidValidation("Odaberite ID aviona kojeg zelite izbrisati: ");
@@ -250,12 +277,11 @@ namespace Internship_3_OOP.Classes
             {
                 Console.WriteLine("");
                 Console.WriteLine("Ne postoji avion s tim ID-em!");
-                Console.WriteLine("");
             }
             else
             {
                 Console.WriteLine("Avion kojeg zelite izbrisati je:");
-                Console.WriteLine($"{planeToDelete.Name} - {planeToDelete.ProductionYear.Year} - Broj letova: {planeToDelete.FlightCount}");
+                Console.WriteLine($"{planeToDelete.Name} - {planeToDelete.ProductionYear} - Broj letova: {planeToDelete.FlightCount}");
 
                 if (!ValidationHelper.AnswerValidation($"Zelite li izbrisati taj avion (DA/NE): "))
                     return;
@@ -273,7 +299,7 @@ namespace Internship_3_OOP.Classes
             Console.WriteLine("");
             foreach (var plane in Planes)
             {
-                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear.Year} - Broj letova: {plane.FlightCount}");
+                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear} - Broj letova: {plane.FlightCount}");
             }
             Console.WriteLine("");
             string inputPlaneName = ValidationHelper.NoEmptyStringValidation("Unesite ime aviona kojeg zelite izbrisati: ");
@@ -282,12 +308,11 @@ namespace Internship_3_OOP.Classes
             {
                 Console.WriteLine("");
                 Console.WriteLine("Ne postoji avion s tim imenom!");
-                Console.WriteLine("");
             }
             else
             {
                 Console.WriteLine("Avion kojeg zelite izbrisati je:");
-                Console.WriteLine($"{planeToDelete.Name} - {planeToDelete.ProductionYear.Year} - Broj letova: {planeToDelete.FlightCount}");
+                Console.WriteLine($"{planeToDelete.Name} - {planeToDelete.ProductionYear} - Broj letova: {planeToDelete.FlightCount}");
 
                 if (!ValidationHelper.AnswerValidation($"Zelite li izbrisati taj avion (DA/NE): "))
                     return;
