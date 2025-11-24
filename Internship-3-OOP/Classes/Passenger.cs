@@ -220,6 +220,7 @@ namespace Internship_3_OOP.Classes
 
                 Console.WriteLine($"{flight.ID} - {flight.Name} - {flight.DepartueTime} - {flight.ArrivalTime} - {flight.Distance} km - {flight.TotalTime} h");
             }
+            Console.WriteLine("");
 
             Guid inputflightID = ValidationHelper.GuidValidation("Odaberite ID leta kojeg zelite rezervirati: ");
             var flightToReserv = Flight.Flights.Find(flightToReserv => flightToReserv.ID == inputflightID);
@@ -229,6 +230,7 @@ namespace Internship_3_OOP.Classes
                 Console.WriteLine("Neispravan ID leta!");
                 return;
             }
+            Console.WriteLine("");
 
             int category = ValidationHelper.CategoryIntValidation("Unesite 1 ili 2 ili 3: ");
             if (flightToReserv.Plane.PlaneSeatCount[category].NumberOfSeats - flightToReserv.CurrentFlightSeatCount[category].NumberOfSeats >= 1)
@@ -304,6 +306,7 @@ namespace Internship_3_OOP.Classes
             {
                 Console.WriteLine("");
                 Console.WriteLine("Ne postoji let s tim ID-em!");
+                Console.WriteLine("");
             }
             else
             {
@@ -326,6 +329,7 @@ namespace Internship_3_OOP.Classes
             {
                 Console.WriteLine("");
                 Console.WriteLine("Ne postoji let s tim imenom!");
+                Console.WriteLine("");
             }
             else
             {

@@ -272,8 +272,6 @@ namespace Internship_3_OOP.Classes
 
         public static DateTime FlightTimeValidation(string message, DateTime departureTime, DateTime arrivalTime = default)
         {
-            if (arrivalTime == default)
-                arrivalTime = DateTime.MaxValue;
             string inputValue;
 
             while(true)
@@ -297,11 +295,14 @@ namespace Internship_3_OOP.Classes
                         Console.WriteLine("Vrijeme ne moze biti starije od 2010 godine!");
                         continue;
                     }
-                    else if (arrivalTime == DateTime.MaxValue)
-                        return newTime;
+                    else if (arrivalTime == DateTime.MaxValue && newTime < departureTime)
+                    {
+                        Console.WriteLine("Vrijeme dolaska ne moze biti maje od vremena odlaska!");
+                        continue;
+                    }
                     else if (arrivalTime != DateTime.MaxValue && newTime > departureTime)
                         return newTime;
-                    else Console.WriteLine("Vrijeme dolaska ne moze biti prije od vremana polaska");
+                    else return newTime;
                 }
 
                 else
