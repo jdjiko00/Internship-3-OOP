@@ -40,9 +40,35 @@ namespace Internship_3_OOP.Classes
             return value;
         }
 
+        public static string EmailValidation(string message)
+        {
+            string value;
+            while (true)
+            {
+                Console.Write(message);
+                value = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    Console.WriteLine("Unos ne smije biti prazan");
+                    continue;
+                }
+
+                if (value.EndsWith("@mail.com"))
+                {
+                    return value;
+                }
+                else
+                {
+                    Console.WriteLine("E-mail mora završavati sa '@mail.com'!");
+                }
+            }
+        }
+
         public static DateOnly DateOfBirthValidation(string message)
         {
             string value;
+            DateOnly minTime = new DateOnly(1900, 1, 1);
             do
             {
                 Console.Write(message);
@@ -50,7 +76,12 @@ namespace Internship_3_OOP.Classes
 
                 if (DateOnly.TryParseExact(value, "yyyy-MM-dd", out DateOnly date))
                 {
-                    return date;
+                    if (date < minTime)
+                    {
+                        Console.WriteLine("Datum ne moze biti starije od 1900 godine!");
+                        continue;
+                    }
+                    else return date;
                 }
                 else
                 {
@@ -112,6 +143,41 @@ namespace Internship_3_OOP.Classes
                 else if (value == "3" || value == "F" || value == "FLIGHTATTENDANT")
                 {
                     return CrewPosition.FlightAttendant;
+                }
+
+                else
+                {
+                    Console.WriteLine("Morate upisati 1 ili 2 ili 3!");
+                    continue;
+                }
+
+            } while (true);
+        }
+
+        public static int CategoryIntValidation(string message)
+        {
+            string value;
+            Console.WriteLine($"1 - {Category.Standard}");
+            Console.WriteLine($"2 - {Category.Business}");
+            Console.WriteLine($"3 - {Category.VIP}");
+            do
+            {
+                Console.Write(message);
+                value = Console.ReadLine().Trim().ToUpper();
+
+                if (value == "1" || value == "S" || value == "STANDARD")
+                {
+                    return 0;
+                }
+
+                else if (value == "2" || value == "B" || value == "BUSINESS")
+                {
+                    return 1;
+                }
+
+                else if (value == "3" || value == "V" || value == "VIP")
+                {
+                    return 2;
                 }
 
                 else
@@ -214,6 +280,7 @@ namespace Internship_3_OOP.Classes
             {
                 Console.Write(message);
                 inputValue = Console.ReadLine();
+                DateTime minTime = new DateTime(2010, 1, 1);
 
                 if (string.IsNullOrEmpty(inputValue) && departureTime == DateTime.MinValue)
                     continue;
@@ -225,7 +292,12 @@ namespace Internship_3_OOP.Classes
 
                 else if (DateTime.TryParseExact(inputValue, "yyyy-MM-dd HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime newTime))
                 {
-                    if (arrivalTime == DateTime.MaxValue)
+                    if (newTime < minTime)
+                    {
+                        Console.WriteLine("Vrijeme ne moze biti starije od 2010 godine!");
+                        continue;
+                    }
+                    else if (arrivalTime == DateTime.MaxValue)
                         return newTime;
                     else if (arrivalTime != DateTime.MaxValue && newTime > departureTime)
                         return newTime;
@@ -281,7 +353,12 @@ namespace Internship_3_OOP.Classes
 
                 if (double.TryParse(input, out double result))
                 {
-                    return result;
+                    if (result < 0)
+                    {
+                        Console.WriteLine("Neispravno je unijeti negativnu vrijednost!");
+                        continue;
+                    }
+                    else return result;
                 }
                 else
                 {

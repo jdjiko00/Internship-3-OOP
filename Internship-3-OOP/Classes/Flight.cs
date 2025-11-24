@@ -357,6 +357,11 @@ namespace Internship_3_OOP.Classes
                 flight.Crew = crewToPut;
                 flight.UpdateDate();
             }
+            else
+            {
+                Console.WriteLine("Nista se nije promijenilo!");
+                return;
+            }
 
             Console.WriteLine($"Let nakon promjene:\n{flight.ID} - {flight.Name}\n{flight.DepartueTime} - {flight.ArrivalTime}\nPosada: {flight.Crew.Name}");
             Console.WriteLine("");
