@@ -9,6 +9,7 @@ namespace Internship_3_OOP
             CrewMember.InitializeCrewMembers();
             Crew.InitializeCrews();
             Plane.InitializePlanes();
+            Flight.InitializeFlights();
 
             Console.WriteLine("APLIKACIJA ZA UPRAVLJANJE AERODROMOM");
             bool appFinished = false;
@@ -28,6 +29,7 @@ namespace Internship_3_OOP
                         case 1:
                             break;
                         case 2:
+                            Flight.FlightMenu();
                             break;
                         case 3:
                             Plane.PlaneMenu();

@@ -1,4 +1,5 @@
 ﻿using Internship_3_OOP.Classes.Enums;
+using System.Windows.Markup;
 using System.Xml.Linq;
 
 namespace Internship_3_OOP.Classes
@@ -140,6 +141,41 @@ namespace Internship_3_OOP.Classes
             }
 
             else return ID;
+        }
+
+        public static DateTime FlightTimeValidation(string message, DateTime departureTime, DateTime arrivalTime = default)
+        {
+            Console.WriteLine("");
+            if (arrivalTime == default)
+                arrivalTime = DateTime.MaxValue;
+            string inputValue;
+
+            while(true)
+            {
+                Console.Write(message);
+                inputValue = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(inputValue))
+                {
+                    return departureTime;
+                }
+
+                else if (DateTime.TryParseExact(inputValue, "yyyy-MM-dd HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime newTime))
+                {
+                    if (arrivalTime == DateTime.MaxValue)
+                        return newTime;
+                    else if (arrivalTime != DateTime.MaxValue && newTime > departureTime)
+                        return newTime;
+                    else Console.WriteLine("Vrijeme dolaska ne moze biti prije od vremana polaska");
+                }
+
+                else
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Neispravan format! Mora biti YYYY-MM-DD HH:mm!");
+                    Console.WriteLine("");
+                }
+            }
         }
 
         public static bool AnswerValidation(string message)

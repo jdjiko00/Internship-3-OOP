@@ -118,6 +118,11 @@ namespace Internship_3_OOP.Classes
             do
             {
                 Console.WriteLine("");
+                foreach (var plane in Planes)
+                {
+                    Console.WriteLine($"{plane.ID} - {plane.Name}");
+                }
+                Console.WriteLine("");
                 Console.WriteLine("a - Pretrazi avione po ID-u");
                 Console.WriteLine("b - Pretrazi avione po imenu");
                 Console.WriteLine("c - Povratak na prethodni izbornik");
@@ -160,8 +165,12 @@ namespace Internship_3_OOP.Classes
             else
             {
                 Console.WriteLine("Avion kojeg trazite je:");
-                Console.WriteLine($"{plane.Name} - {plane.ProductionYear.Year} - Broj letova: {plane.FlightCount}");
+                Console.WriteLine("");
+                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear.Year} - Broj letova: {plane.FlightCount}");
+                foreach (var seat in plane.PlaneSeatCount)
+                    Console.WriteLine($"{seat.Category} ima {seat.NumberOfSeats} sjedala");
             }
+            Console.WriteLine("");
 
             Console.WriteLine("Pritisnite bilo koju tipku za nastavak...");
             Console.ReadKey();
@@ -181,8 +190,13 @@ namespace Internship_3_OOP.Classes
             else
             {
                 Console.WriteLine("Avion kojeg trazite je:");
-                Console.WriteLine($"{plane.Name} - {plane.ProductionYear.Year} - Broj letova: {plane.FlightCount}");
+                Console.WriteLine("");
+                Console.WriteLine($"{plane.ID} - {plane.Name} - {plane.ProductionYear.Year} - Broj letova: {plane.FlightCount}");
+                foreach (var seat in plane.PlaneSeatCount)
+                    Console.WriteLine($"{seat.Category} ima {seat.NumberOfSeats} sjedala");
+
             }
+            Console.WriteLine("");
 
             Console.WriteLine("Pritisnite bilo koju tipku za nastavak...");
             Console.ReadKey();
